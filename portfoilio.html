@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allen — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* SF Pro renders natively on Apple devices via this system stack */
+:root{
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','DM Sans',sans-serif;
+  --font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','DM Sans',sans-serif;
+  --fg:#1d1d1f;--fg-2:#6e6e73;--fg-3:#aeaeb2;
+  --bg:#ffffff;--bg-2:#f5f5f7;--bg-3:#e8e8ed;--bg-4:#d2d2d7;
+  --blue:#0071e3;--blue-h:#0077ed;--green:#30d158;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:300;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background:rgba(255,255,255,0.75);border-bottom:0.5px solid rgba(0,0,0,0.1)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 3rem;display:flex;justify-content:space-between;align-items:center;height:52px}
+.logo{font-family:var(--font);font-weight:600;font-size:1.05rem;letter-spacing:-0.02em;color:var(--fg)}
+.nav-links{display:flex;list-style:none}
+.nav-links a{display:block;padding:0 1rem;height:52px;line-height:52px;font-family:var(--font-body);font-size:0.78rem;font-weight:400;color:var(--fg-2);text-decoration:none;transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--blue);transform:translateX(-50%);transition:width 0.25s cubic-bezier(0.4,0,0.2,1);border-radius:1px}
+.nav-links a:hover{color:var(--fg)}
+.nav-links a.active{color:var(--blue);font-weight:500}
+.nav-links a.active::after{width:50%}
+.nav-cta{padding:0.4rem 1.1rem;background:var(--blue);color:#fff;border-radius:980px;font-family:var(--font-body);font-size:0.78rem;font-weight:500;text-decoration:none;transition:background 0.2s}
+.nav-cta:hover{background:var(--blue-h)}
+
+/* PROGRESS */
+.prog{position:fixed;top:52px;left:0;height:2px;background:var(--blue);z-index:250;transition:width 0.1s;border-radius:0 1px 1px 0}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 3rem 6rem;background:var(--bg);position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse at center,rgba(0,113,227,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-live{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,113,227,0.07);color:var(--blue);border-radius:980px;padding:0.38rem 1.1rem;font-size:0.78rem;font-weight:500;margin-bottom:2.5rem;opacity:0;animation:rise 0.9s forwards 0.3s}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(48,209,88,0.5);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-name{font-family:var(--font);font-size:clamp(5.5rem,13vw,11rem);font-weight:600;letter-spacing:-0.05em;line-height:0.88;color:var(--fg);margin-bottom:2rem;opacity:0;animation:rise 0.9s forwards 0.5s}
+.hero-sub{font-size:1.3rem;color:var(--fg-2);font-weight:300;max-width:500px;line-height:1.65;letter-spacing:-0.015em;margin-bottom:3.5rem;opacity:0;animation:rise 0.9s forwards 0.75s}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:rise 0.9s forwards 1s}
+.btn-p{padding:0.8rem 2.2rem;background:var(--blue);color:#fff;border-radius:980px;text-decoration:none;font-family:var(--font-body);font-size:0.92rem;font-weight:500;transition:all 0.2s;letter-spacing:-0.01em}
+.btn-p:hover{background:var(--blue-h);transform:scale(1.02)}
+.btn-s{padding:0.8rem 2.2rem;background:var(--bg-2);color:var(--fg);border-radius:980px;text-decoration:none;font-family:var(--font-body);font-size:0.92rem;font-weight:400;transition:all 0.2s}
+.btn-s:hover{background:var(--bg-3)}
+.hero-scroll{margin-top:3.5rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;color:var(--fg-3);font-size:0.7rem;font-weight:400;opacity:0;animation:rise 0.9s forwards 1.3s}
+.scroll-arrow{font-size:1rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SHARED CHAPTER STYLES ── */
+.chapter-opener{text-align:center;padding:10rem 3rem 6rem}
+.ch-eyebrow{font-size:0.7rem;font-weight:600;color:var(--blue);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.25rem;display:block}
+.ch-headline{font-family:var(--font);font-size:clamp(3.5rem,8vw,7.5rem);font-weight:600;letter-spacing:-0.05em;line-height:0.92;color:var(--fg);margin-bottom:1.5rem}
+.ch-intro{font-size:1.25rem;color:var(--fg-2);font-weight:300;max-width:600px;margin:0 auto;line-height:1.65;letter-spacing:-0.015em}
+
+/* ── ABOUT ── */
+#about{background:var(--bg-2)}
+.about-body{max-width:1060px;margin:0 auto;padding:0 3rem 10rem;display:grid;grid-template-columns:1.15fr 0.85fr;gap:7rem;align-items:start}
+.divider{width:50px;height:2px;background:var(--blue);border-radius:1px;margin-bottom:2rem;opacity:0.4}
+.body-p{color:var(--fg-2);font-size:1.05rem;line-height:1.8;margin-bottom:1.35rem;font-weight:300;letter-spacing:-0.01em}
+.body-p .str{color:var(--fg);font-weight:500}
+.closing{font-family:var(--font);font-size:1.2rem;font-weight:600;color:var(--fg);margin-top:2.5rem;letter-spacing:-0.03em}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;position:sticky;top:5rem}
+.stat-card{background:var(--bg);border-radius:18px;padding:1.75rem;box-shadow:0 1px 12px rgba(0,0,0,0.05),0 0 0 0.5px rgba(0,0,0,0.04)}
+.s-ico{font-size:1.4rem;margin-bottom:0.8rem}
+.s-num{font-family:var(--font);font-size:2.2rem;font-weight:600;letter-spacing:-0.05em;color:var(--fg);line-height:1}
+.s-desc{font-size:0.78rem;color:var(--fg-2);margin-top:0.4rem;font-weight:400}
+
+/* ── WORK ── */
+#work{background:var(--bg)}
+.work-body{max-width:1060px;margin:0 auto;padding:0 3rem 10rem}
+.job-row{display:grid;grid-template-columns:140px 1fr;gap:4rem;padding:4rem 0;border-bottom:0.5px solid var(--bg-3);align-items:start}
+.job-row:first-child{padding-top:1rem}
+.job-row:last-child{border-bottom:none}
+.job-num{font-size:0.68rem;font-weight:500;color:var(--fg-3);letter-spacing:0.06em;text-transform:uppercase;padding-top:0.4rem}
+.job-title{font-family:var(--font);font-size:1.35rem;font-weight:600;letter-spacing:-0.03em;color:var(--fg);margin-bottom:0.4rem;line-height:1.15}
+.job-co{font-size:0.85rem;color:var(--blue);font-weight:500;margin-bottom:1rem;letter-spacing:-0.01em}
+.job-desc{font-size:0.95rem;color:var(--fg-2);line-height:1.8;font-weight:300;letter-spacing:-0.01em;max-width:600px}
+
+/* ── SKILLS ── */
+#skills{background:var(--bg-2)}
+.skills-body{max-width:1060px;margin:0 auto;padding:0 3rem 10rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem}
+.sk-group-label{font-size:0.7rem;font-weight:600;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2rem}
+.sk-item{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 0;border-bottom:0.5px solid var(--bg-3)}
+.sk-item:last-child{border-bottom:none}
+.sk-left{display:flex;align-items:center;gap:0.75rem}
+.sk-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.sk-name{font-size:0.9rem;color:var(--fg);letter-spacing:-0.01em;font-weight:400}
+.sk-badge{font-size:0.7rem;font-weight:500;color:var(--blue);background:rgba(0,113,227,0.08);border-radius:980px;padding:0.2rem 0.65rem;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.5rem}
+.chip{background:var(--bg);border:0.5px solid var(--bg-4);border-radius:980px;padding:0.42rem 1rem;font-size:0.78rem;color:var(--fg-2);font-weight:400;transition:all 0.2s;cursor:default;letter-spacing:-0.01em}
+.chip:hover{border-color:rgba(0,113,227,0.3);color:var(--blue)}
+
+/* ── REVIEWS ── */
+#reviews{background:var(--bg)}
+.reviews-body{max-width:1060px;margin:0 auto;padding:0 3rem 10rem}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.rev-card{background:var(--bg-2);border-radius:22px;padding:2.25rem;transition:transform 0.35s cubic-bezier(0.4,0,0.2,1),box-shadow 0.35s}
+.rev-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 24px 60px rgba(0,0,0,0.1)}
+.stars{display:flex;gap:2px;margin-bottom:1.25rem}
+.star{width:13px;height:13px;fill:var(--blue)}
+.rev-q{font-size:0.93rem;color:var(--fg-2);line-height:1.82;font-weight:300;margin-bottom:1.75rem;font-style:italic;letter-spacing:-0.01em}
+.rev-sep{width:28px;height:1px;background:var(--bg-4);margin-bottom:1.1rem;border-radius:1px}
+.rev-name{font-family:var(--font);font-size:0.87rem;font-weight:600;color:var(--fg);letter-spacing:-0.02em}
+.rev-src{font-size:0.75rem;color:var(--fg-3);margin-top:0.2rem}
+
+/* ── CONTACT ── */
+#contact{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 3rem;background:var(--bg-2)}
+.c-opener{margin-bottom:4rem}
+.c-eyebrow{font-size:0.7rem;font-weight:600;color:var(--blue);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.25rem}
+.c-headline{font-family:var(--font);font-size:clamp(3rem,7vw,6.5rem);font-weight:600;letter-spacing:-0.05em;line-height:0.92;color:var(--fg);margin-bottom:1.5rem}
+.c-sub{font-size:1.1rem;color:var(--fg-2);font-weight:300;max-width:400px;margin:0 auto;line-height:1.7;letter-spacing:-0.01em}
+.c-cards{display:flex;gap:1.25rem;justify-content:center;flex-wrap:wrap}
+.c-card{background:var(--bg);border-radius:18px;padding:2rem 2.25rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem;min-width:185px;box-shadow:0 2px 14px rgba(0,0,0,0.05);transition:transform 0.25s,box-shadow 0.25s}
+.c-card:hover{transform:translateY(-5px);box-shadow:0 14px 35px rgba(0,0,0,0.09)}
+.c-ico{width:40px;height:40px;border:1px solid var(--bg-3);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.c-ico svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.c-lbl{font-size:0.68rem;font-weight:500;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.06em}
+.c-val{font-size:0.9rem;color:var(--fg);text-decoration:none;font-weight:500;transition:color 0.2s;letter-spacing:-0.01em}
+.c-val:hover{color:var(--blue)}
+
+/* ANIMATIONS */
+.anim{opacity:0;transform:translateY(32px);transition:opacity 0.75s cubic-bezier(0.4,0,0.2,1),transform 0.75s cubic-bezier(0.4,0,0.2,1)}
+.anim.show{opacity:1;transform:translateY(0)}
+.anim.d1{transition-delay:0.1s}.anim.d2{transition-delay:0.2s}.anim.d3{transition-delay:0.3s}
+.anim.d4{transition-delay:0.4s}.anim.d5{transition-delay:0.5s}
+
+footer{background:var(--bg);padding:2.5rem;text-align:center;border-top:1px solid var(--bg-3)}
+footer p{font-size:0.78rem;color:var(--fg-3)}
+
+@media(max-width:900px){
+  .nav-inner{padding:0 1.5rem}.nav-links{display:none}
+  .chapter-opener,.contact-opener{padding:7rem 1.5rem 4rem}
+  #hero,#contact{padding:7rem 1.5rem 5rem}
+  .about-body,.skills-body{padding:0 1.5rem 6rem;grid-template-columns:1fr}
+  .stat-grid{position:static}
+  .work-body,.reviews-body{padding:0 1.5rem 6rem}
+  .job-row{grid-template-columns:1fr;gap:0.75rem}
+  .rev-grid{grid-template-columns:1fr}
+  .c-cards{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Allen</div>
+    <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in Touch</a>
+  </div>
+</nav>
+<div class="prog" id="prog"></div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-live">
+    <span class="live-dot"></span>
+    Tech Specialist &nbsp;·&nbsp; Entrepreneur &nbsp;·&nbsp; Maryland
+  </div>
+  <h1 class="hero-name">Allen.</h1>
+  <p class="hero-sub">Making technology feel simple, personal, and worth owning.</p>
+  <div class="hero-btns">
+    <a href="#about" class="btn-p">Learn More</a>
+    <a href="#contact" class="btn-s">Get in Touch</a>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-arrow">↓</span>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="chapter-opener">
+    <span class="ch-eyebrow anim">About</span>
+    <h2 class="ch-headline anim d1">People First.</h2>
+    <p class="ch-intro anim d2">Fluent in Apple, Windows, and Android. Known for making technology feel like it belongs to the person using it, not the other way around.</p>
+  </div>
+  <div class="about-body">
+    <div>
+      <div class="divider anim"></div>
+      <p class="body-p anim d1">Technology has a way of making people feel like outsiders in their own lives. I built a career on changing that. Whether it’s a custom build, a strategic consultation, or a simple conversation, the goal is always the same: make it make sense, make it feel personal, and make sure you walk away feeling <span class="str">confident, not confused.</span></p>
+      <p class="body-p anim d2">Curiosity didn’t wait for permission. At 14, while most were just using technology, I was taking it apart and rebuilding it to figure out exactly what made it tick. By 15, that obsession turned into a paycheck. What followed was a career built on solving problems at every level from the hardware in your hands and the video on your screen to the operations that keep an entire organization moving.</p>
+      <p class="body-p anim d2">Today I bridge the gap between technical complexity and everyday life, using years of experience to ensure your tools empower you to do your best work.</p>
+      <p class="closing anim d3">Are You ready? Let's Get to Work.</p>
+    </div>
+    <div class="anim d2">
+      <div class="stat-grid">
+        <div class="stat-card"><div class="s-ico">🚀</div><div class="s-num">2</div><div class="s-desc">Active Businesses</div></div>
+        <div class="stat-card"><div class="s-ico">⚡</div><div class="s-num">4+</div><div class="s-desc">Years Experience</div></div>
+        <div class="stat-card"><div class="s-ico">🛠</div><div class="s-num">5</div><div class="s-desc">Specializations</div></div>
+        <div class="stat-card"><div class="s-ico">📍</div><div class="s-num" style="font-size:1.7rem">DMV</div><div class="s-desc">Maryland Based</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORK ═══ -->
+<section id="work">
+  <div class="chapter-opener">
+    <span class="ch-eyebrow anim">Experience</span>
+    <h2 class="ch-headline anim d1">My Work.</h2>
+    <p class="ch-intro anim d2">4+ years of building. Every role built on the last. Every client treated like the only one.</p>
+  </div>
+  <div class="work-body">
+    <div class="job-row anim">
+      <div class="job-num">01</div>
+      <div>
+      <div class="job-title">Technical Sales Support</div>
+        <div class="job-co">AstroTechPC</div>
+        <p class="job-desc">Guided clients toward the right technology in high-volume retail environments. Known for translating complex technical specifications into clear, confident guidance and for building genuine trust that brought clients back. The goal was never the sale. It was the right outcome for the person standing in front of him.</p>
+      </div>
+    </div>
+    <div class="job-row anim d1">
+      <div class="job-num">02</div>
+      <div>
+        <div class="job-title">Computer Hardware Technician</div>
+        <div class="job-co">AstroTechPC</div>
+        <p class="job-desc">Built his first computer at 14. By 15, was already servicing clients. Diagnosed, repaired, and built systems for individuals and small businesses, developing a technical foundation built entirely through hands-on work and genuine curiosity. Most people were figuring out high school. He was fixing computers for a living.</p>
+      </div>
+    </div>
+    <div class="job-row anim d2">
+      <div class="job-num">03</div>
+      <div>
+         <div class="job-title">Technology &amp; Operations Lead</div>
+        <div class="job-co">Millennium Landscaping &amp;</div>
+        <p class="job-desc">Led technology infrastructure and operational strategy for the organization. Managed cross-functional teams, implemented systems that drove efficiency, and served as the technical backbone for both daily operations and long-term planning. When the organization needed someone to hold it together technically, this was that role.</p>
+        </div>
+    </div>
+    <div class="job-row anim">
+      <div class="job-num">04</div>
+      <div>
+         <div class="job-title">Technical Consultant</div>
+        <div class="job-co">AstroTechPC</div>
+        <p class="job-desc">Delivers personalized tech consulting across the DMV area. Every consultation is tailored. This is where the hardware background, the sales instinct, and the people-first mindset converge into one offering.</p>
+       </div>
+    </div>
+    <div class="job-row anim d1">
+      <div class="job-num">05</div>
+      <div>
+        <div class="job-title">Video Editor</div>
+        <div class="job-co">Freelance</div>
+        <p class="job-desc">Produced and edited professional video content for multiple clients and platforms. Managed full post-production workflows including color grading, motion graphics, and audio from brief to polished final delivery. Creative precision applied to every frame, the same way it's applied to every system he builds.</p>
+     </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="chapter-opener">
+    <span class="ch-eyebrow anim">Skills</span>
+    <h2 class="ch-headline anim d1">Built for it.</h2>
+    <p class="ch-intro anim d2">A skill set built across industries, client types, and years of real-world experience. Technical. Creative. Operational. Hospitality-driven.</p>
+  </div>
+  <div class="skills-body">
+    <div class="anim d1">
+      <div class="sk-group-label">Core Skills</div>
+      <div class="sk-item"><div class="sk-left"><div class="sk-dot"></div><span class="sk-name">Custom PC Building &amp; Hardware</span></div><span class="sk-badge">Expert</span></div>
+      <div class="sk-item"><div class="sk-left"><div class="sk-dot"></div><span class="sk-name">Apple, Windows &amp; Android Ecosystems</span></div><span class="sk-badge">Expert</span></div>
+      <div class="sk-item"><div class="sk-left"><div class="sk-dot"></div><span class="sk-name">Technical Sales &amp; Client Relations</span></div><span class="sk-badge">Expert</span></div>
+      <div class="sk-item"><div class="sk-left"><div class="sk-dot"></div><span class="sk-name">Technology &amp; Operations Management</span></div><span class="sk-badge">Advanced</span></div>
+      <div class="sk-item"><div class="sk-left"><div class="sk-dot"></div><span class="sk-name">Hospitality &amp; Guest Experience</span></div><span class="sk-badge">Advanced</span></div>
+      <div class="sk-item"><div class="sk-left"><div class="sk-dot"></div><span class="sk-name">Video &amp; Photo Editing</span></div><span class="sk-badge">Advanced</span></div>
+      <div class="sk-item"><div class="sk-left"><div class="sk-dot"></div><span class="sk-name">Brand Strategy &amp; Business Development</span></div><span class="sk-badge">Advanced</span></div>
+    </div>
+    <div class="anim d2">
+      <div class="sk-group-label">Additional Competencies</div>
+      <div class="chips">
+        <span class="chip">Client Experience Management</span>
+        <span class="chip">Guest Relations</span>
+        <span class="chip">Service Excellence</span>
+        <span class="chip">Conflict Resolution</span>
+        <span class="chip">Hospitality Operations</span>
+        <span class="chip">High-Volume Client Management</span>
+        <span class="chip">Front-Facing Service Delivery</span>
+        <span class="chip">Team Leadership</span>
+        <span class="chip">Project Management</span>
+        <span class="chip">Landscaping &amp; Hardscaping</span>
+        <span class="chip">Product Sourcing</span>
+        <span class="chip">Entrepreneurship</span>
+        <span class="chip">Network Configuration</span>
+        <span class="chip">Troubleshooting</span>
+        <span class="chip">Content Creation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REVIEWS ═══ -->
+<section id="reviews">
+  <div class="chapter-opener">
+    <span class="ch-eyebrow anim">Testimonials</span>
+    <h2 class="ch-headline anim d1">Don't take my word for it.</h2>
+    <p class="ch-intro anim d2">Straight from clients who've worked with AstroTech PC and Millennium Landscaping.</p>
+  </div>
+  <div class="reviews-body">
+    <div class="rev-grid">
+      <div class="rev-card anim d1">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="rev-q">"Allen built my custom PC from scratch and walked me through every decision along the way. He made an incredibly complex process feel completely effortless. I actually understand my own machine now and I never thought I would be able to say that."</p>
+        <div class="rev-sep"></div>
+        <div class="rev-name">Marcus T.</div>
+        <div class="rev-src">AstroTech PC - Custom Build Client</div>
+      </div>
+      <div class="rev-card anim d2">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="rev-q">"Millennium completely transformed our property. Allen's communication throughout the entire project was unlike anything we had experienced before, professional, clear, and genuinely invested in the outcome."</p>
+        <div class="rev-sep"></div>
+        <div class="rev-name">Patricia W.</div>
+        <div class="rev-src">Millennium Landscaping &amp;</div>
+      </div>
+      <div class="rev-card anim d3">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="rev-q">"I walked in not knowing what I needed. Allen listened, asked the right questions, and matched me with something that was perfect for my work. He really knows his stuff, and it was how he made me feel heard that really stuck with me."</p>
+        <div class="rev-sep"></div>
+        <div class="rev-name">Devon R.</div>
+        <div class="rev-src">AstroTech PC — Tech Consultation Client</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="c-opener">
+    <p class="c-eyebrow anim">Let's Talk</p>
+    <h2 class="c-headline anim d1">Get in Touch.</h2>
+    <p class="c-sub anim d2">Available for consulting, new opportunities, and collaborations. Reach out anytime.</p>
+  </div>
+  <div class="c-cards anim d3">
+    <div class="c-card">
+      <div class="c-ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></div>
+      <span class="c-lbl">Email</span>
+      <a href="mailto:josue.30581@gmail.com" class="c-val">josue.30581@gmail.com</a>
+    </div>
+    <div class="c-card">
+      <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="c-lbl">Phone</span>
+      <a href="tel:3015371829" class="c-val">(301) 537-1829</a>
+    </div>
+    <div class="c-card">
+      <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <span class="c-lbl">Location</span>
+      <span class="c-val">Maryland, DMV Area</span>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2025 Allen &nbsp;·&nbsp; Maryland, DMV Area</p></footer>
+
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement;
+  document.getElementById('prog').style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%';
+},{passive:true});
+
+// Scroll animations
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')});
+},{threshold:0.12});
+document.querySelectorAll('.anim').forEach(el=>obs.observe(el));
+
+// Nav active section
+const sections=document.querySelectorAll('section[id]');
+const navAs=document.querySelectorAll('.nav-links a');
+const secObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));
+    }
+  });
+},{threshold:0.35});
+sections.forEach(s=>secObs.observe(s));
+</script>
+</body>
+</html>
